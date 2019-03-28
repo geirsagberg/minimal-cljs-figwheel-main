@@ -128,7 +128,7 @@ m
 ;; clojure is built with the google closure compiler
 ;; meaning it has access to the closure-library
 ;; https://google.github.io/closure-library/api/goog.html
-(defonce body (dom/getElement "app"))
+; (defonce body (dom/getElement "app"))
 
 
 ;; map, filter reduce

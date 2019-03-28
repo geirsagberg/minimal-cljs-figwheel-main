@@ -1,1 +1,2 @@
-{:main example.core}
+{:main example.core
+ :output-to "target/public/out.js"}

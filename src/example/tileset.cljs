@@ -2,14 +2,15 @@
   (:require [quil.core :as q]
             [quil.middleware :as m]))
 
-(def canvas-size 1000)
+(def canvas-size 300)
 (def square-size 960)
 (def padding (/ (- canvas-size square-size) 2))
 (def spacing 1)
-(def depth 8)
+(def depth 4)
 
 
 (defn generate-square [depth]
+  (q/fill 255 255 0 50)
   (if (= depth 0)
     (if (< (Math/random) .7) \w \b)
     (let [ul     (generate-square (- depth 1))
@@ -42,7 +43,7 @@
              (q/no-stroke)
              (q/fill 0)
              (q/rect-mode :corners)
-             (q/frame-rate 1)
+             (q/frame-rate 60)
              (generate-square depth))
     :update (fn [s] (generate-square depth))
     :draw (fn [s]

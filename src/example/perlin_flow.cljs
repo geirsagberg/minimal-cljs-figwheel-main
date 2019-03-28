@@ -4,9 +4,12 @@
 
 
 (def w 1200)
-(def h 800)
+(def h 768)
 (def ndim 350)
-(def size 500)
+(def size 5000)
+
+(def minAcc (atom -1))
+(def maxAcc (atom 1))
 
 
 (defn particle []
@@ -29,13 +32,16 @@
   (q/map-range (q/noise (/ x ndim) (/ y ndim))
                0
                1
-               (- Math/PI)
-               Math/PI))
+               @minAcc
+               @maxAcc))
 
 
 (defn draw [s]
-  (q/fill 100 100 100 25)
+  (q/fill 100 100 200 50)
+  (swap! minAcc (fn [a] (- a 0.1)))
+  (swap! maxAcc (fn [a] (+ a 0.1)))
   (doseq [pnt s]
+    (q/fill (/ (* 255.0 (:x pnt)) w) (/ (* 255.0 (:y pnt)) h) 200 50)
     (q/ellipse (:x pnt) (:y pnt) 1 1)))
 
 
@@ -55,7 +61,9 @@
     :setup (fn []
              (q/no-stroke)
              (q/background 20)
+             (q/noise-seed (q/random 20))
              (particles size))
-    :update (fn [s] (map update-particle s))
+    :update (fn [s]
+              (map update-particle s))
     :draw draw
     :middleware [m/fun-mode]))
